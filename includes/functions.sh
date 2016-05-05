@@ -198,6 +198,7 @@ installtask() {
 					sqlite="sqlite"
 					openjdk="openjdk-7"
 					jetty_name="jetty"
+					php_fpm="php5-fpm"
 				elif [[ $dist_codename == "xenial" ]]; then
 					if [[ ${httpd_platform} == "apache2" ]]; then
 						echo "$(textb [INFO]) - Adding ondrej/apache2 repository..."
@@ -214,6 +215,7 @@ installtask() {
 					sqlite="sqlite3"
 					openjdk="openjdk-9"
 					jetty_name="jetty8"
+					php_fpm="php7.0-fpm"
 				else
 					echo "$(redb [ERR]) - Your Ubuntu distribution is currently not supported"
 					exit 1
@@ -571,7 +573,7 @@ DatabaseMirror clamav.inode.at" >> /etc/clamav/freshclam.conf
 		restartservices)
 			[[ -f /lib/systemd/systemd ]] && echo "$(textb [INFO]) - Restarting services, this may take a few seconds..."
 			if [[ ${httpd_platform} == "nginx" ]]; then
-				fpm="php5-fpm"
+				fpm=${php_fpm}
 			else
 				fpm=""
 			fi
@@ -664,7 +666,7 @@ A backup will be stored in ./before_upgrade_$timestamp
 	echo -e "$(greenb "[OK]")"
 	echo -en "\nStopping services, this may take a few seconds... \t\t"
 	if [[ ${httpd_platform} == "nginx" ]]; then
-		fpm="php5-fpm"
+		fpm=${php_fpm}
 	else
 		fpm=""
 	fi
